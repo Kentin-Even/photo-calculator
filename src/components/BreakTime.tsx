@@ -13,11 +13,15 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "./ui/separator";
+import { useCalculationHistory } from "@/hooks/use-calculation-history";
+import { CalculationHistory } from "@/components/CalculationHistory";
 
 export function BreakTime() {
   const [shutterSpeed, setShutterSpeed] = useState<string>("");
   const [cadence, setCadence] = useState<string>("");
   const [breakTime, setBreakTime] = useState<number | null>(null);
+  const { history, saveCalculation, clearHistory } =
+    useCalculationHistory("break-time");
 
   const calculateBreakTime = () => {
     const obturateur = parseFloat(shutterSpeed);
@@ -33,6 +37,13 @@ export function BreakTime() {
     const t = (360 * fps) / obturateur;
 
     setBreakTime(t);
+
+    // Sauvegarder dans l'historique
+    saveCalculation(
+      { "Obturateur (°)": obturateur, "Cadence (fps)": fps },
+      t,
+      formatTime(t)
+    );
   };
 
   const formatTime = (seconds: number): string => {
@@ -115,6 +126,14 @@ export function BreakTime() {
             </Card>
           )}
         </div>
+        <CalculationHistory
+          history={history}
+          onClear={clearHistory}
+          formatEntry={(entry) => ({
+            inputs: `${entry.inputs["Obturateur (°)"]}° @ ${entry.inputs["Cadence (fps)"]}fps`,
+            result: entry.formattedResult || formatTime(Number(entry.result)),
+          })}
+        />
         <Separator />
         <div className="space-y-4">
           <h3 className="text-lg font-semibold">Exemples courants</h3>

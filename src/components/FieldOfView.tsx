@@ -13,11 +13,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { useCalculationHistory } from "@/hooks/use-calculation-history";
+import { CalculationHistory } from "@/components/CalculationHistory";
 
 export default function FieldOfView() {
   const [sensorDimension, setSensorDimension] = useState<string>("");
   const [focalLength, setFocalLength] = useState<string>("");
   const [fieldOfView, setFieldOfView] = useState<number | null>(null);
+  const { history, saveCalculation, clearHistory } =
+    useCalculationHistory("field-of-view");
 
   const calculateFieldOfView = () => {
     const d = parseFloat(sensorDimension);
@@ -33,6 +37,13 @@ export default function FieldOfView() {
     const angleDegrees = (angleRadians * 180) / Math.PI;
 
     setFieldOfView(angleDegrees);
+
+    // Sauvegarder dans l'historique
+    saveCalculation(
+      { "Dimension capteur (mm)": d, "Focale (mm)": f },
+      angleDegrees,
+      `${angleDegrees.toFixed(2)}°`
+    );
   };
   return (
     <Card className="shadow-xl">
@@ -87,7 +98,7 @@ export default function FieldOfView() {
 
           {fieldOfView !== null && (
             <Card className="border-2 border-green-500 bg-green-50 dark:bg-green-950/20">
-              <CardContent className="pt-6">
+              <CardContent className="pt-1">
                 <p className="text-sm font-medium text-muted-foreground mb-2">
                   Angle de champ (α)
                 </p>
@@ -98,6 +109,15 @@ export default function FieldOfView() {
             </Card>
           )}
         </div>
+
+        <CalculationHistory
+          history={history}
+          onClear={clearHistory}
+          formatEntry={(entry) => ({
+            inputs: `d=${entry.inputs["Dimension capteur (mm)"]}mm, f=${entry.inputs["Focale (mm)"]}mm`,
+            result: entry.formattedResult || `${entry.result}°`,
+          })}
+        />
 
         <Separator />
 
