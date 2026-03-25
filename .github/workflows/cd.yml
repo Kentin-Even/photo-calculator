@@ -58,7 +58,7 @@ jobs:
           username: ${{ secrets.STAGING_USER }}
           key: ${{ secrets.STAGING_DEPLOY_KEY }}
           script: |
-            cd /var/www
+            cd /home/ubuntu/projet/docker
             docker pull ghcr.io/${{ github.repository }}:latest
             docker compose up -d
 
@@ -82,7 +82,7 @@ jobs:
           username: ${{ secrets.PROD_USER }}
           key: ${{ secrets.PROD_DEPLOY_KEY }}
           script: |
-            cd /var/www
+            cd /home/ubuntu/projet/docker
             docker pull ghcr.io/${{ github.repository }}:latest
             docker compose up -d
 
