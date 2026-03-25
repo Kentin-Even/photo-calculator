@@ -1,7 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { CalculationHistory } from "@/components/CalculationHistory";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -11,23 +13,22 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useCalculationHistory } from "@/hooks/use-calculation-history";
-import { CalculationHistory } from "@/components/CalculationHistory";
 
 export default function CircleOfConfusion() {
   const [sensorDiagonal, setSensorDiagonal] = useState<string>("");
   const [circleOfConfusion, setCircleOfConfusion] = useState<number | null>(
-    null
+    null,
   );
-  const { history, saveCalculation, clearHistory } =
-    useCalculationHistory("circle-of-confusion");
+  const { history, saveCalculation, clearHistory } = useCalculationHistory(
+    "circle-of-confusion",
+  );
 
   const calculateCircleOfConfusion = () => {
     const d = parseFloat(sensorDiagonal);
 
-    if (isNaN(d) || d === 0) {
+    if (Number.isNaN(d) || d === 0) {
       setCircleOfConfusion(null);
       return;
     }
@@ -38,11 +39,7 @@ export default function CircleOfConfusion() {
     setCircleOfConfusion(cc);
 
     // Sauvegarder dans l'historique
-    saveCalculation(
-      { "Diagonale (mm)": d },
-      cc,
-      `${cc.toFixed(3)} mm`
-    );
+    saveCalculation({ "Diagonale (mm)": d }, cc, `${cc.toFixed(3)} mm`);
   };
 
   return (
@@ -59,7 +56,9 @@ export default function CircleOfConfusion() {
       <CardContent className="space-y-6">
         <Card className="bg-muted">
           <CardContent>
-            <p className="text-center font-mono text-lg">CC = D / 1730 (en mm)</p>
+            <p className="text-center font-mono text-lg">
+              CC = D / 1730 (en mm)
+            </p>
           </CardContent>
         </Card>
 
@@ -209,4 +208,3 @@ export default function CircleOfConfusion() {
     </Card>
   );
 }
-

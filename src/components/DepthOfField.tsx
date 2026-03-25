@@ -1,7 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { CalculationHistory } from "@/components/CalculationHistory";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -11,10 +13,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useCalculationHistory } from "@/hooks/use-calculation-history";
-import { CalculationHistory } from "@/components/CalculationHistory";
 
 export default function DepthOfField() {
   const [distance, setDistance] = useState<string>("");
@@ -29,7 +29,7 @@ export default function DepthOfField() {
     const d = parseFloat(distance);
     const hy = parseFloat(hyperfocal);
 
-    if (isNaN(d) || isNaN(hy) || hy === 0) {
+    if (Number.isNaN(d) || Number.isNaN(hy) || hy === 0) {
       setPpn(null);
       setDpn(null);
       setPdc(null);
@@ -62,7 +62,7 @@ export default function DepthOfField() {
     saveCalculation(
       { "Distance (m)": d, "Hyperfocale (m)": hy },
       pdcValue,
-      `PPN: ${formatDistance(ppnValue)}, DPN: ${formatDistance(dpnValue)}, PDC: ${formatDistance(pdcValue)}`
+      `PPN: ${formatDistance(ppnValue)}, DPN: ${formatDistance(dpnValue)}, PDC: ${formatDistance(pdcValue)}`,
     );
   };
 
@@ -112,9 +112,7 @@ export default function DepthOfField() {
               step="0.1"
               value={distance}
               onChange={(e) => setDistance(e.target.value)}
-              onKeyDown={(e) =>
-                e.key === "Enter" && calculateDepthOfField()
-              }
+              onKeyDown={(e) => e.key === "Enter" && calculateDepthOfField()}
               placeholder="Ex: 5"
             />
             <p className="text-xs text-muted-foreground">
@@ -130,9 +128,7 @@ export default function DepthOfField() {
               step="0.1"
               value={hyperfocal}
               onChange={(e) => setHyperfocal(e.target.value)}
-              onKeyDown={(e) =>
-                e.key === "Enter" && calculateDepthOfField()
-              }
+              onKeyDown={(e) => e.key === "Enter" && calculateDepthOfField()}
               placeholder="Ex: 10.4"
             />
             <p className="text-xs text-muted-foreground">
@@ -141,11 +137,7 @@ export default function DepthOfField() {
             </p>
           </div>
 
-          <Button
-            onClick={calculateDepthOfField}
-            className="w-full"
-            size="lg"
-          >
+          <Button onClick={calculateDepthOfField} className="w-full" size="lg">
             Calculer
           </Button>
 
@@ -207,7 +199,8 @@ export default function DepthOfField() {
           onClear={clearHistory}
           formatEntry={(entry) => ({
             inputs: `d=${entry.inputs["Distance (m)"]}m, Hy=${entry.inputs["Hyperfocale (m)"]}m`,
-            result: entry.formattedResult || formatDistance(Number(entry.result)),
+            result:
+              entry.formattedResult || formatDistance(Number(entry.result)),
           })}
         />
 
@@ -246,9 +239,7 @@ export default function DepthOfField() {
                   <div>
                     <p className="font-medium">PDC:</p>
                     <p className="text-muted-foreground">
-                      {formatDistance(
-                        (2 * 1.75 * 1) / (1.75 * 1.75 - 1)
-                      )}
+                      {formatDistance((2 * 1.75 * 1) / (1.75 * 1.75 - 1))}
                     </p>
                   </div>
                 </div>
@@ -284,9 +275,7 @@ export default function DepthOfField() {
                   <div>
                     <p className="font-medium">PDC:</p>
                     <p className="text-muted-foreground">
-                      {formatDistance(
-                        (2 * 10.4 * 9) / (10.4 * 10.4 - 9)
-                      )}
+                      {formatDistance((2 * 10.4 * 9) / (10.4 * 10.4 - 9))}
                     </p>
                   </div>
                 </div>
@@ -322,9 +311,7 @@ export default function DepthOfField() {
                   <div>
                     <p className="font-medium">PDC:</p>
                     <p className="text-muted-foreground">
-                      {formatDistance(
-                        (2 * 15.6 * 1) / (15.6 * 15.6 - 1)
-                      )}
+                      {formatDistance((2 * 15.6 * 1) / (15.6 * 15.6 - 1))}
                     </p>
                   </div>
                 </div>
@@ -336,4 +323,3 @@ export default function DepthOfField() {
     </Card>
   );
 }
-

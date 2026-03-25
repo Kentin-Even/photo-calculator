@@ -1,7 +1,7 @@
-import DepthOfField from "@/components/DepthOfField";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
+import DepthOfField from "@/components/DepthOfField";
+import { Button } from "@/components/ui/button";
 
 export default function DepthOfFieldPage() {
   return (
@@ -15,7 +15,10 @@ export default function DepthOfFieldPage() {
       <main className="relative max-w-4xl mx-auto px-4 py-10 md:px-8 md:py-16">
         <div className="mb-6">
           <Link href="/">
-            <Button variant="ghost" className="gap-2 group hover:bg-accent/80 transition-all duration-200">
+            <Button
+              variant="ghost"
+              className="gap-2 group hover:bg-accent/80 transition-all duration-200"
+            >
               <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform duration-200" />
               Retour à l'accueil
             </Button>
@@ -26,4 +29,3 @@ export default function DepthOfFieldPage() {
     </div>
   );
 }
-

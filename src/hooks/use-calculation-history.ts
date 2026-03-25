@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export interface CalculationEntry {
   id: string;
@@ -31,7 +31,7 @@ export function useCalculationHistory(calculatorKey: string) {
   const saveCalculation = (
     inputs: Record<string, string | number>,
     result: string | number,
-    formattedResult?: string
+    formattedResult?: string,
   ) => {
     const entry: CalculationEntry = {
       id: `${Date.now()}-${Math.random()}`,
@@ -50,7 +50,7 @@ export function useCalculationHistory(calculatorKey: string) {
       try {
         localStorage.setItem(
           `calc-history-${calculatorKey}`,
-          JSON.stringify(newHistory)
+          JSON.stringify(newHistory),
         );
       } catch (error) {
         console.error("Erreur lors de la sauvegarde de l'historique:", error);

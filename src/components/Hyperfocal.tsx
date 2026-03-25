@@ -1,7 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { CalculationHistory } from "@/components/CalculationHistory";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -11,10 +13,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useCalculationHistory } from "@/hooks/use-calculation-history";
-import { CalculationHistory } from "@/components/CalculationHistory";
 
 export default function Hyperfocal() {
   const [focalLength, setFocalLength] = useState<string>("");
@@ -29,7 +29,13 @@ export default function Hyperfocal() {
     const phi = parseFloat(aperture);
     const cdc = parseFloat(circleOfConfusion);
 
-    if (isNaN(f) || isNaN(phi) || isNaN(cdc) || phi === 0 || cdc === 0) {
+    if (
+      Number.isNaN(f) ||
+      Number.isNaN(phi) ||
+      Number.isNaN(cdc) ||
+      phi === 0 ||
+      cdc === 0
+    ) {
       setHyperfocal(null);
       return;
     }
@@ -45,7 +51,7 @@ export default function Hyperfocal() {
     saveCalculation(
       { "Focale (mm)": f, "Ouverture (f/)": phi, "CDC (mm)": cdc },
       hy,
-      formatDistance(hy / 1000)
+      formatDistance(hy / 1000),
     );
   };
 
@@ -150,7 +156,9 @@ export default function Hyperfocal() {
           onClear={clearHistory}
           formatEntry={(entry) => ({
             inputs: `f=${entry.inputs["Focale (mm)"]}mm, f/${entry.inputs["Ouverture (f/)"]}, cdc=${entry.inputs["CDC (mm)"]}mm`,
-            result: entry.formattedResult || formatDistance(Number(entry.result) / 1000),
+            result:
+              entry.formattedResult ||
+              formatDistance(Number(entry.result) / 1000),
           })}
         />
 

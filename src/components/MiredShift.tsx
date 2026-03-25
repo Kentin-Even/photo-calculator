@@ -1,7 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { CalculationHistory } from "@/components/CalculationHistory";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -11,10 +13,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useCalculationHistory } from "@/hooks/use-calculation-history";
-import { CalculationHistory } from "@/components/CalculationHistory";
 
 export default function MiredShift() {
   const [desiredTemp, setDesiredTemp] = useState<string>("");
@@ -27,7 +27,12 @@ export default function MiredShift() {
     const tcVoulue = parseFloat(desiredTemp);
     const tcMesuree = parseFloat(measuredTemp);
 
-    if (isNaN(tcVoulue) || isNaN(tcMesuree) || tcVoulue === 0 || tcMesuree === 0) {
+    if (
+      Number.isNaN(tcVoulue) ||
+      Number.isNaN(tcMesuree) ||
+      tcVoulue === 0 ||
+      tcMesuree === 0
+    ) {
       setMiredShift(null);
       return;
     }
@@ -43,7 +48,7 @@ export default function MiredShift() {
     saveCalculation(
       { "TC.Voulue (K)": tcVoulue, "TC.Mesurée (K)": tcMesuree },
       deltaMired,
-      `${deltaMired > 0 ? "+" : ""}${deltaMired.toFixed(2)} mired`
+      `${deltaMired > 0 ? "+" : ""}${deltaMired.toFixed(2)} mired`,
     );
   };
 
@@ -103,9 +108,7 @@ export default function MiredShift() {
               step="100"
               value={desiredTemp}
               onChange={(e) => setDesiredTemp(e.target.value)}
-              onKeyDown={(e) =>
-                e.key === "Enter" && calculateMiredShift()
-              }
+              onKeyDown={(e) => e.key === "Enter" && calculateMiredShift()}
               placeholder="Ex: 5600 (lumière du jour)"
             />
           </div>
@@ -120,18 +123,12 @@ export default function MiredShift() {
               step="100"
               value={measuredTemp}
               onChange={(e) => setMeasuredTemp(e.target.value)}
-              onKeyDown={(e) =>
-                e.key === "Enter" && calculateMiredShift()
-              }
+              onKeyDown={(e) => e.key === "Enter" && calculateMiredShift()}
               placeholder="Ex: 3200 (tungstène)"
             />
           </div>
 
-          <Button
-            onClick={calculateMiredShift}
-            className="w-full"
-            size="lg"
-          >
+          <Button onClick={calculateMiredShift} className="w-full" size="lg">
             Calculer
           </Button>
 
@@ -188,11 +185,7 @@ export default function MiredShift() {
                   TC.Voulue: 5600K • TC.Mesurée: 3200K
                 </p>
                 <p className="text-sm text-muted-foreground mb-2">
-                  ΔMired:{" "}
-                  {(
-                    (1000000 / 5600 - 1000000 / 3200).toFixed(2)
-                  )}{" "}
-                  mired
+                  ΔMired: {(1000000 / 5600 - 1000000 / 3200).toFixed(2)} mired
                 </p>
                 <p className="text-xs text-muted-foreground">
                   • Résultat négatif = décalage bleuté (filtre bleu nécessaire)
@@ -214,14 +207,11 @@ export default function MiredShift() {
                   TC.Voulue: 3200K • TC.Mesurée: 5600K
                 </p>
                 <p className="text-sm text-muted-foreground mb-2">
-                  ΔMired:{" "}
-                  {(
-                    (1000000 / 3200 - 1000000 / 5600).toFixed(2)
-                  )}{" "}
-                  mired
+                  ΔMired: {(1000000 / 3200 - 1000000 / 5600).toFixed(2)} mired
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  • Résultat positif = décalage orangé (filtre orange nécessaire)
+                  • Résultat positif = décalage orangé (filtre orange
+                  nécessaire)
                 </p>
               </CardContent>
             </Card>
@@ -240,11 +230,7 @@ export default function MiredShift() {
                   TC.Voulue: 5600K • TC.Mesurée: 4000K
                 </p>
                 <p className="text-sm text-muted-foreground mb-2">
-                  ΔMired:{" "}
-                  {(
-                    (1000000 / 5600 - 1000000 / 4000).toFixed(2)
-                  )}{" "}
-                  mired
+                  ΔMired: {(1000000 / 5600 - 1000000 / 4000).toFixed(2)} mired
                 </p>
                 <p className="text-xs text-muted-foreground">
                   • Résultat négatif = décalage bleuté
@@ -275,4 +261,3 @@ export default function MiredShift() {
     </Card>
   );
 }
-

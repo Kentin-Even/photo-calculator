@@ -1,7 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { CalculationHistory } from "@/components/CalculationHistory";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -11,10 +13,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useCalculationHistory } from "@/hooks/use-calculation-history";
-import { CalculationHistory } from "@/components/CalculationHistory";
 
 export default function FieldOfView() {
   const [sensorDimension, setSensorDimension] = useState<string>("");
@@ -27,7 +27,7 @@ export default function FieldOfView() {
     const d = parseFloat(sensorDimension);
     const f = parseFloat(focalLength);
 
-    if (isNaN(d) || isNaN(f) || f === 0) {
+    if (Number.isNaN(d) || Number.isNaN(f) || f === 0) {
       setFieldOfView(null);
       return;
     }
@@ -42,7 +42,7 @@ export default function FieldOfView() {
     saveCalculation(
       { "Dimension capteur (mm)": d, "Focale (mm)": f },
       angleDegrees,
-      `${angleDegrees.toFixed(2)}°`
+      `${angleDegrees.toFixed(2)}°`,
     );
   };
   return (
