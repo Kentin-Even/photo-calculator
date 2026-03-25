@@ -1,7 +1,7 @@
-import FieldOfView from "@/components/FieldOfView";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
+import FieldOfView from "@/components/FieldOfView";
+import { Button } from "@/components/ui/button";
 
 export default function FieldOfViewPage() {
   return (

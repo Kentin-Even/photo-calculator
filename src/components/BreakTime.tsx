@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { CalculationHistory } from "@/components/CalculationHistory";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -10,11 +13,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "./ui/separator";
 import { useCalculationHistory } from "@/hooks/use-calculation-history";
-import { CalculationHistory } from "@/components/CalculationHistory";
+import { Separator } from "./ui/separator";
 
 export function BreakTime() {
   const [shutterSpeed, setShutterSpeed] = useState<string>("");
@@ -27,7 +27,12 @@ export function BreakTime() {
     const obturateur = parseFloat(shutterSpeed);
     const fps = parseFloat(cadence);
 
-    if (isNaN(obturateur) || isNaN(fps) || fps === 0 || obturateur === 0) {
+    if (
+      Number.isNaN(obturateur) ||
+      Number.isNaN(fps) ||
+      fps === 0 ||
+      obturateur === 0
+    ) {
       setBreakTime(null);
       return;
     }
@@ -42,7 +47,7 @@ export function BreakTime() {
     saveCalculation(
       { "Obturateur (°)": obturateur, "Cadence (fps)": fps },
       t,
-      formatTime(t)
+      formatTime(t),
     );
   };
 

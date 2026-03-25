@@ -1,7 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { CalculationHistory } from "@/components/CalculationHistory";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -11,10 +13,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useCalculationHistory } from "@/hooks/use-calculation-history";
-import { CalculationHistory } from "@/components/CalculationHistory";
 
 export default function NormalFocal() {
   const [sensorWidth, setSensorWidth] = useState<string>("");
@@ -26,7 +26,7 @@ export default function NormalFocal() {
   const calculateNormalFocal = () => {
     const l = parseFloat(sensorWidth);
 
-    if (isNaN(l) || l === 0) {
+    if (Number.isNaN(l) || l === 0) {
       setNormalFocal(null);
       return;
     }
@@ -40,11 +40,7 @@ export default function NormalFocal() {
     setNormalFocal(fn);
 
     // Sauvegarder dans l'historique
-    saveCalculation(
-      { "Largeur capteur (mm)": l },
-      fn,
-      `${fn.toFixed(2)} mm`
-    );
+    saveCalculation({ "Largeur capteur (mm)": l }, fn, `${fn.toFixed(2)} mm`);
   };
 
   return (
@@ -79,18 +75,12 @@ export default function NormalFocal() {
               step="0.1"
               value={sensorWidth}
               onChange={(e) => setSensorWidth(e.target.value)}
-              onKeyDown={(e) =>
-                e.key === "Enter" && calculateNormalFocal()
-              }
+              onKeyDown={(e) => e.key === "Enter" && calculateNormalFocal()}
               placeholder="Ex: 36 (full-frame)"
             />
           </div>
 
-          <Button
-            onClick={calculateNormalFocal}
-            className="w-full"
-            size="lg"
-          >
+          <Button onClick={calculateNormalFocal} className="w-full" size="lg">
             Calculer
           </Button>
 
@@ -138,13 +128,7 @@ export default function NormalFocal() {
                 </p>
                 <p className="text-sm text-muted-foreground mb-2">
                   Focale normale:{" "}
-                  {(
-                    36 /
-                    (2 *
-                      Math.tan(
-                        (40 / 2) * (Math.PI / 180)
-                      ))
-                  ).toFixed(2)}{" "}
+                  {(36 / (2 * Math.tan((40 / 2) * (Math.PI / 180)))).toFixed(2)}{" "}
                   mm
                 </p>
                 <p className="text-xs text-muted-foreground">
@@ -168,13 +152,7 @@ export default function NormalFocal() {
                 </p>
                 <p className="text-sm text-muted-foreground mb-2">
                   Focale normale:{" "}
-                  {(
-                    23 /
-                    (2 *
-                      Math.tan(
-                        (40 / 2) * (Math.PI / 180)
-                      ))
-                  ).toFixed(2)}{" "}
+                  {(23 / (2 * Math.tan((40 / 2) * (Math.PI / 180)))).toFixed(2)}{" "}
                   mm
                 </p>
                 <p className="text-xs text-muted-foreground">
@@ -198,13 +176,9 @@ export default function NormalFocal() {
                 </p>
                 <p className="text-sm text-muted-foreground mb-2">
                   Focale normale:{" "}
-                  {(
-                    17.3 /
-                    (2 *
-                      Math.tan(
-                        (40 / 2) * (Math.PI / 180)
-                      ))
-                  ).toFixed(2)}{" "}
+                  {(17.3 / (2 * Math.tan((40 / 2) * (Math.PI / 180)))).toFixed(
+                    2,
+                  )}{" "}
                   mm
                 </p>
                 <p className="text-xs text-muted-foreground">
@@ -228,13 +202,9 @@ export default function NormalFocal() {
                 </p>
                 <p className="text-sm text-muted-foreground mb-2">
                   Focale normale:{" "}
-                  {(
-                    22.2 /
-                    (2 *
-                      Math.tan(
-                        (40 / 2) * (Math.PI / 180)
-                      ))
-                  ).toFixed(2)}{" "}
+                  {(22.2 / (2 * Math.tan((40 / 2) * (Math.PI / 180)))).toFixed(
+                    2,
+                  )}{" "}
                   mm
                 </p>
                 <p className="text-xs text-muted-foreground">
@@ -248,4 +218,3 @@ export default function NormalFocal() {
     </Card>
   );
 }
-

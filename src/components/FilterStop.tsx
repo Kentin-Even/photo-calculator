@@ -1,7 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { CalculationHistory } from "@/components/CalculationHistory";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -11,10 +13,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useCalculationHistory } from "@/hooks/use-calculation-history";
-import { CalculationHistory } from "@/components/CalculationHistory";
 
 export default function FilterStop() {
   const [transmittance, setTransmittance] = useState<string>("");
@@ -25,7 +25,7 @@ export default function FilterStop() {
   const calculateStopLoss = () => {
     const t = parseFloat(transmittance);
 
-    if (isNaN(t) || t <= 0 || t > 100) {
+    if (Number.isNaN(t) || t <= 0 || t > 100) {
       setStopLoss(null);
       return;
     }
@@ -42,11 +42,7 @@ export default function FilterStop() {
     setStopLoss(stop);
 
     // Sauvegarder dans l'historique
-    saveCalculation(
-      { "Transmittance (%)": t },
-      stop,
-      `${stop.toFixed(2)} IL`
-    );
+    saveCalculation({ "Transmittance (%)": t }, stop, `${stop.toFixed(2)} IL`);
   };
 
   return (
@@ -56,7 +52,8 @@ export default function FilterStop() {
           Calculateur d'Écart de Diaphragme
         </CardTitle>
         <CardDescription className="text-center">
-          Calculez la perte de diaphragme d'un filtre à partir de sa transmittance
+          Calculez la perte de diaphragme d'un filtre à partir de sa
+          transmittance
         </CardDescription>
       </CardHeader>
 
@@ -74,9 +71,7 @@ export default function FilterStop() {
 
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="transmittance">
-              Transmittance du filtre (%)
-            </Label>
+            <Label htmlFor="transmittance">Transmittance du filtre (%)</Label>
             <Input
               id="transmittance"
               type="number"
@@ -85,9 +80,7 @@ export default function FilterStop() {
               max="100"
               value={transmittance}
               onChange={(e) => setTransmittance(e.target.value)}
-              onKeyDown={(e) =>
-                e.key === "Enter" && calculateStopLoss()
-              }
+              onKeyDown={(e) => e.key === "Enter" && calculateStopLoss()}
               placeholder="Ex: 50 (pour 50%)"
             />
             <p className="text-xs text-muted-foreground">
@@ -95,11 +88,7 @@ export default function FilterStop() {
             </p>
           </div>
 
-          <Button
-            onClick={calculateStopLoss}
-            className="w-full"
-            size="lg"
-          >
+          <Button onClick={calculateStopLoss} className="w-full" size="lg">
             Calculer
           </Button>
 
@@ -117,7 +106,8 @@ export default function FilterStop() {
                 </p>
                 {stopLoss > 0 && (
                   <p className="text-sm text-muted-foreground mt-3">
-                    Le filtre réduit l'exposition de {stopLoss.toFixed(2)} diaphragme{stopLoss >= 2 ? "s" : ""}
+                    Le filtre réduit l'exposition de {stopLoss.toFixed(2)}{" "}
+                    diaphragme{stopLoss >= 2 ? "s" : ""}
                   </p>
                 )}
               </CardContent>
@@ -249,4 +239,3 @@ export default function FilterStop() {
     </Card>
   );
 }
-
